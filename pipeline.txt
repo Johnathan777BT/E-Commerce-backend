@@ -1,0 +1,74 @@
+name: SpringBoot App ci cd
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  tests: 
+    name: Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17' 
+          distribution: 'temurin'
+          cache: maven
+      - name: Run Test
+        run: mvn -B test
+  build:
+    needs: tests
+    name: Build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17' 
+          distribution: 'temurin'
+          cache: maven
+      - name: Build app
+        run: mvn -B package --DskipTests --file pom.xml
+      - name: upload JAR
+        uses: actions/upload-artifact@v2
+        with: 
+           name:  artifact
+           path: target/microservicio-productos-0.0.1-SNAPSHOT.jar
+  deploy:
+    needs: build
+    name: Deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download JAR
+        uses: actions/download-artifact@v2
+        with:
+          name: artifact
+      - name: Deploy to EBS
+        uses: einaregilsson/beanstalk-deploy@v13
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: spring-boot-app-microservicios
+          environment_name: springbootappmicroservicios-env
+          version_label: v1.0
+          region: us-east-1
+          deployment_package: microservicio-productos-0.0.1-SNAPSHOT.jar
+
+
+
+1. nombre del pipeline
+2. elegir el branch  master para cuando haya un push se ejecute el pipeline
+3. tarea de testear la aplicacion: se selecciona la imagen de ubuntu latest se utiliza java  17  y se corren los test que se tengan dentro de la app
+4. tarea de construir la aplicacion: depende de la tarea de test, se selecciona la imagen de ubuntu latest se utiliza java  17  y se ejcuta el comando del build,  y se hace el upload del jar
+5. tarea de desplegar la aplicacion: depende de la tarea de build,  se selecciona la imagen de ubuntu latest, se descarga el jar, se hace el deploy en aws usando los actions beanstalk, se proporciona 
+   el access y el secret key, el nombre de la aplicacion que tenemos en aws, el environment de la aplicacion en aws, la version, la region donde esta en aws y el archivo a enviar
+
+
+
+
+
