@@ -16,38 +16,38 @@ import java.util.Optional;
 public class ProductoServiceImpl implements IProductoService {
 
     @Autowired
-    private IProductoRepository courseRepository;
+    private IProductoRepository productRepository;
 
     @Autowired
     private PedidosClient pedidosClient;
 
     @Override
     public List<Producto> findAll() {
-        return (List<Producto>) courseRepository.findAll();
+        return (List<Producto>) productRepository.findAll();
     }
 
     @Override
     public Producto findById(Long id) {
-        return courseRepository.findById(id).orElseThrow();
+        return productRepository.findById(id).orElseThrow();
     }
 
     
     @Override
     public Optional<Producto> findById2(Long id) {
     	
-    	return courseRepository.findById(id);
+    	return productRepository.findById(id);
     }
     
     @Override
     public Producto save(Producto course) {
-        return courseRepository.save(course);
+        return productRepository.save(course);
     }
 
     @Override
     public OrderByProductResponse findOrdersByProductId(Long prodId) {
 
         // Consultar si existe el producto
-    	Producto prod = courseRepository.findById(prodId).orElseThrow();
+    	Producto prod = productRepository.findById(prodId).orElseThrow();
 
         // Obtener los pedidos
         List<PedidoDTO> ordersDTOList = pedidosClient.findAllOrdersByProduct(prod.getId());
@@ -59,4 +59,10 @@ public class ProductoServiceImpl implements IProductoService {
                 .ordersDTOList(ordersDTOList)
                 .build();
     }
+
+	@Override
+	public List<Producto> findAllByName(String name) {
+		// TODO Auto-generated method stub
+		return productRepository.findAllByName(name);
+	}
 }

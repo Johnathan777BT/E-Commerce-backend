@@ -12,4 +12,5 @@ public interface IProductoService {
     Producto save(Producto prod);
     Optional<Producto> findById2(Long id);
     OrderByProductResponse findOrdersByProductId(Long prodId);
+    List<Producto> findAllByName(String name);
 }

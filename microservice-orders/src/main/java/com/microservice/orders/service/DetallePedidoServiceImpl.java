@@ -63,7 +63,9 @@ public class DetallePedidoServiceImpl implements IDetallePedidoService  {
 		 List<DetallePedidoDTO> values = new ArrayList<>();
 		 for (Object[] r : consulta) {
 		 
-			  var op = productosClient.findAllProductsByProduct((Long) r[3]);
+			  System.out.println("prodId: "+(Long) r[2]);
+			 
+			  var op = productosClient.findAllProductsByProduct((Long) r[2]);
 			 
 			 com= new DetallePedidoDTO( (Long) r[0],  (Long) r[3],  (BigDecimal) r[4],  (Long) r[1],  (String) op.getName()  );
 			 

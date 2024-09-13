@@ -46,6 +46,11 @@ public class ProductoController {
     public ResponseEntity<?> findById(){
         return ResponseEntity.ok(productService.findAll());
     }
+    
+    @GetMapping("/all/{name}")
+    public ResponseEntity<?> findByName(@PathVariable("name") String name){
+        return ResponseEntity.ok(productService.findAllByName(name));
+    }
 
     @GetMapping("/search/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
