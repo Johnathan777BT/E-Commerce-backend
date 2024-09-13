@@ -13,4 +13,5 @@ public interface IProductoService {
     Optional<Producto> findById2(Long id);
     OrderByProductResponse findOrdersByProductId(Long prodId);
     List<Producto> findAllByName(String name);
+    void delete(Long id);
 }

@@ -65,4 +65,11 @@ public class ProductoServiceImpl implements IProductoService {
 		// TODO Auto-generated method stub
 		return productRepository.findAllByName(name);
 	}
+
+	@Override
+	public void delete(Long id) {
+		// TODO Auto-generated method stub
+		productRepository.deleteById(id);
+		
+	}
 }

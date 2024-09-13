@@ -108,4 +108,10 @@ public class ProductoController {
     public ResponseEntity<?> findOrdersByProductId(@PathVariable Long prodId){
         return ResponseEntity.ok(productService.findOrdersByProductId(prodId));
     }
+    
+    @DeleteMapping("/delete/{id}")
+    public void deleteDetail(@PathVariable Long id)
+    {
+    	productService.delete(id);
+    }
 }
