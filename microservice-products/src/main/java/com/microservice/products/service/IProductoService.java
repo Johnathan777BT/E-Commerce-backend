@@ -6,6 +6,8 @@ import com.microservice.products.http.response.OrderByProductResponse;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
+
 public interface IProductoService {
     List<Producto> findAll();
     Producto findById(Long id);
@@ -13,5 +15,5 @@ public interface IProductoService {
     Optional<Producto> findById2(Long id);
     OrderByProductResponse findOrdersByProductId(Long prodId);
     List<Producto> findAllByName(String name);
-    void delete(Long id);
+    ResponseEntity<?> delete(Long id);
 }

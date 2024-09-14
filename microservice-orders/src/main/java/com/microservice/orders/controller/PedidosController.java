@@ -154,9 +154,9 @@ public class PedidosController {
     
     
     @DeleteMapping("/delete-detail/{id}")
-    public void deleteDetail(@PathVariable Long id)
+    public ResponseEntity<?> deleteDetail(@PathVariable Long id)
     {
-    	orderdetailService.delete(id);
+    	return orderdetailService.delete(id);
     }
     
     

@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.microservice.orders.client.ProductosClient;
@@ -91,9 +92,16 @@ public class DetallePedidoServiceImpl implements IDetallePedidoService  {
 	  }
 
 	@Override
-	public void delete(Long pedidoId) {
+	public ResponseEntity<?> delete(Long pedidoId) {
 		// TODO Auto-generated method stub
-		orderRepository.deleteById(pedidoId);
+		
+		if(!orderRepository.findById(pedidoId).isEmpty()) {
+			orderRepository.deleteById(pedidoId);
+			return ResponseEntity.ok().build();
+		} else {
+			 return   ResponseEntity.notFound().build();
+		}
+		
 	}
 
 	@Override

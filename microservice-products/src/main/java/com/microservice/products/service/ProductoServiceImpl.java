@@ -7,6 +7,7 @@ import com.microservice.products.entity.Producto;
 import com.microservice.products.http.response.OrderByProductResponse;
 import com.microservice.products.persistence.IProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,9 +68,15 @@ public class ProductoServiceImpl implements IProductoService {
 	}
 
 	@Override
-	public void delete(Long id) {
+	public ResponseEntity<?> delete(Long id) {
 		// TODO Auto-generated method stub
-		productRepository.deleteById(id);
+		 if(!productRepository.findById(id).isEmpty()) {
+			 productRepository.deleteById(id);
+			 return ResponseEntity.ok().build();
+		 }
+		 else {
+			 return   ResponseEntity.notFound().build();
+		 }
 		
 	}
 }
